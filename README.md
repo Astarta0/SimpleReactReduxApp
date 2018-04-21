@@ -14,4 +14,8 @@ npm run build
 ```
 npm start
 ```
+**Login/Password for test:**
 
+*username:* Admin
+
+*password:* 12345
