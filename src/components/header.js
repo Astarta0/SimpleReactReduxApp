@@ -6,12 +6,6 @@ import * as globalActions from '../global/globalActions';
 import * as loginPageActions from '../pages/LoginPage/actions';
 
 class Header extends Component {
-
-    handleClickLogOut = () => {
-        this.props.logOut();
-        localStorage.removeItem('isUserLoggedIn');
-    };
-
     render() {
         return(
             <header className='header'>
@@ -26,9 +20,9 @@ class Header extends Component {
                         <Link to='/profile' className="menu-item__link menu-item__link_color_is_orange" replace>Profile</Link>
                     </li>
                     { (this.props.isUserLoggedIn) && (
-                        <li className='menu__item menu__item_border menu-item menu-item_align-right'>
+                        <li className='menu__item menu__item_border menu-item'>
                             <Link to='/' className="menu-item__link menu-item__link_color_is_orange"
-                                  onClick={this.handleClickLogOut}
+                                  onClick={this.props.logOut}
                                   replace>
                                 LogOut
                             </Link>
@@ -39,3 +33,20 @@ class Header extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        isUserLoggedIn: state.global.isUserLoggedIn,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        logOut: () => {
+            dispatch(globalActions.logOut());
+            dispatch(loginPageActions.clearUserData());
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

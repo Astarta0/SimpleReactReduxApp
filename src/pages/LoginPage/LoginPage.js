@@ -39,7 +39,7 @@ class LoginPage extends Component {
                             onClick={this.checkUserCredentials}>Login</button>
 
                     {this.props.isLoginError && <div className="login-page__alert alert">
-                        The user name or password is incorrect
+                        Имя пользователя или пароль введены не верно
                     </div> }
 
                 </form>
@@ -55,3 +55,21 @@ function mapStateToProps(state) {
         isLoginError: state.loginPage.isLoginError
     };
 }
+
+function mapDispatchToProps(dispatch) {
+    return {
+        updateUserName: value => {
+            dispatch(loginPageActions.updateUserName(value));
+        },
+        updateUserPassword: value => {
+            dispatch(loginPageActions.updateUserPassword(value));
+        },
+        logIn: () => {
+            dispatch(globalActions.logIn());
+            dispatch(loginPageActions.redirect('/profile'));
+        },
+        logInError: () => { dispatch(loginPageActions.logInError()); }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
