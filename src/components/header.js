@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import * as globalActions from '../global/globalActions';
-import * as loginPageActions from '../pages/LoginPage/actions';
 
 class Header extends Component {
+
+    handleClickLogOut = () => {
+        this.props.logOut();
+        localStorage.removeItem('isUserLoggedIn');
+    };
+
     render() {
         return(
             <header className='header'>
@@ -22,7 +27,7 @@ class Header extends Component {
                     { (this.props.isUserLoggedIn) && (
                         <li className='menu__item menu__item_border menu-item'>
                             <Link to='/' className="menu-item__link menu-item__link_color_is_orange"
-                                  onClick={this.props.logOut}
+                                  onClick={this.handleClickLogOut}
                                   replace>
                                 LogOut
                             </Link>
@@ -44,7 +49,6 @@ function mapDispatchToProps(dispatch) {
     return {
         logOut: () => {
             dispatch(globalActions.logOut());
-            dispatch(loginPageActions.clearUserData());
         }
     };
 }

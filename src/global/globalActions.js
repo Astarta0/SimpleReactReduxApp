@@ -1,13 +1,13 @@
-import * as globalAactionTypes from './globalActionTypes';
+import * as globalActionTypes from './globalActionTypes';
 
 export function logIn() {
   return {
-      type: globalAactionTypes.LOGIN
+      type: globalActionTypes.LOGIN
   };
 };
 
 export function logOut() {
     return {
-        type: globalAactionTypes.LOGOUT
+        type: globalActionTypes.LOGOUT
     };
 };

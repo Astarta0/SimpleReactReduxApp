@@ -1,5 +1,4 @@
 import * as globalActionTypes from './globalActionTypes';
-import * as actionTypes from "../pages/LoginPage/actionTypes";
 
 const INITIAL_STATE = {
     isUserLoggedIn: Boolean(localStorage.getItem('isUserLoggedIn'))
