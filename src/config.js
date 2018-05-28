@@ -1,0 +1,1 @@
+export const BASE_API_PATH = 'https://mysterious-reef-29460.herokuapp.com/api/v1';

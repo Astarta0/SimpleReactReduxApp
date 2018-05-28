@@ -3,72 +3,58 @@ import ReactDOM from "react-dom";
 
 import styles from './loginPage.css';
 import { connect } from 'react-redux';
-import * as loginPageActions from './actions';
 import * as globalActions from '../../global/globalActions';
-import {VALID_USER_NAME, VALID_USER_PASSWORD} from "./constants";
+import * as globalSelectors from '../../global/globalSelectors';
 
 class LoginPage extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            isLoginError: false
-        };
+        this.inputNameRef = React.createRef();
+        this.inputPasswordRef = React.createRef();
     }
 
-    updateUserName = () => {
-        this.setState((prevState) => {
-            if (prevState.isLoginError) {
-                return {isLoginError: false}
+    updateUserData = () => {
+            if (this.props.loginError) {
+              this.props.clearLoginError();
             }
-        });
-    };
-
-    updateUserPassword = () => {
-        this.setState((prevState) => {
-            if (prevState.isLoginError) {
-                return {isLoginError: false}
-            }
-        });
     };
 
     checkUserCredentials = (event) => {
-        console.log(this.refs);
+        const userName = this.inputNameRef.current.value;
+        const userPassword = this.inputPasswordRef.current.value;
+
         event.preventDefault();
-        if(ReactDOM.findDOMNode(this.refs.nameInput).value===VALID_USER_NAME && ReactDOM.findDOMNode(this.refs.passwordInput).value===VALID_USER_PASSWORD) {
-            console.log('true login');
-            window.localStorage.setItem('isUserLoggedIn', '1');
-            this.props.logIn();
-        } else {
-            console.log('false login');
-            this.setState({
-                isLoginError: true
-            });
-        }
+        this.props.logIn(userName, userPassword);
+
     };
 
     render() {
-        console.log('render LoginPage');
+        // TODO: disable button for empty values of fields
+        const loginError = this.props.loginError;
         return(
             <div className="login-page">
                 <form className="login-page__login-form login-form">
                     <input className="login-form__user-name-input user-name-input"
                            type="text" placeholder="Username"
                            defaultValue=''
-                           ref='nameInput'
-                           onChange={this.updateUserName}
+                           ref={this.inputNameRef}
+                           onChange={this.updateUserData}
                     />
                     <input className="login-form__user-password-input user-password-input"
                            type="password" placeholder="Password"
                            defaultValue=''
-                           ref='passwordInput'
-                           onChange={this.updateUserPassword}
+                           ref={this.inputPasswordRef}
+                           onChange={this.updateUserData}
                     />
                     <button className="login-form__submit-btn"
-                            onClick={this.checkUserCredentials}>Login</button>
+                            onClick={this.checkUserCredentials}
+                            disabled={this.props.isLoginPending}>
+                        {this.props.isLoginPending ? 'Loading...' : 'Login'}
+                    </button>
 
-                    {this.state.isLoginError && <div className="login-page__alert alert">
-                        The user name or password is incorrect
+                    {loginError && <div className="login-page__alert alert">
+                        {loginError}
                     </div> }
                 </form>
             </div>
@@ -78,16 +64,19 @@ class LoginPage extends Component {
 
 function mapStateToProps(state) {
     return {
-        isUserLoggedIn: state.global.isUserLoggedIn,
+        isLoginPending: globalSelectors.isLoginPending(state),
+        loginError: globalSelectors.getLoginError(state)
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        logIn: () => {
-            dispatch(globalActions.logIn());
-            dispatch(loginPageActions.redirect('/profile'));
+        logIn: (userName, userPassword) => {
+            dispatch(globalActions.logIn(userName, userPassword));
         },
+        clearLoginError: () => {
+            dispatch(globalActions.clearLoginError());
+        }
     };
 }
 

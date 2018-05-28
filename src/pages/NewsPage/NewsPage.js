@@ -1,35 +1,50 @@
 import React, {Component} from "react";
+import {connect} from 'react-redux';
 
-import { I_NEWS } from '../../initialNewsModel';
-import ArticleList from './ArticleList';
-import styles from './newsPage.css';
+import * as newsActions from './actions';
+import * as newsSelectors from './selectors';
+import NewsList from './NewsList';
+import styles from './main.css';
 
-export default class NewsPage extends Component {
-    constructor(props) {
-        super(props);
+class NewsPage extends Component {
 
-        this.state={
-            defaultValue: 'A-Z'
-        };
+    componentDidMount() {
+        this.props.getNews();
     }
 
-    handleSelectOption = (event) => {
-        this.setState({defaultValue: event.target.value});
-    };
-
     render() {
-        console.log('render news');
-        return(
-            <div>
-                <div className='select-order'>
-                    <label className="label">Select the order of articles:</label>
-                    <select value={this.state.defaultValue} onChange={this.handleSelectOption}>
-                        <option value='A-Z'>A-Z</option>
-                        <option value='Z-A'>Z-A</option>
-                    </select>
+        const {news, newsCount, isGetNewsPending, getNewsError } = this.props;
+        if (isGetNewsPending || getNewsError || !news) {
+            return (
+                <div className='news-page'>
+                    <h2 className='news-page__message-container'>{ (getNewsError) ? `${getNewsError}` : 'Data Loading...'}</h2>
                 </div>
-                <ArticleList articles={I_NEWS.articles} order={this.state.defaultValue}/>
+            );
+        }
+        return(
+            <div className='news-page'>
+                <NewsList news={news} newsCount={newsCount}/>
             </div>
         );
     }
-};
+}
+
+function mapStateToProps(state) {
+    return {
+        getNewsError: newsSelectors.getNewsError(state),
+        news: newsSelectors.getNews(state),
+        newsCount: newsSelectors.getNewsCount(state),
+        isGetNewsPending: newsSelectors.isGetNewsPending(state)
+
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getNews: () => {
+            dispatch(newsActions.getNews());
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsPage);

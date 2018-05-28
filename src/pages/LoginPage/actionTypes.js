@@ -1,1 +1,0 @@
-export const REDIRECT = `LOGIN_PAGE/REDIRECT`;

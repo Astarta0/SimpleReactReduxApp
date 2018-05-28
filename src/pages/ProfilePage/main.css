@@ -1,0 +1,32 @@
+.profile-page{
+    height: 100vh;
+    margin: 0;
+    font-size: 14px;
+    position: relative;
+}
+
+.profile-page__user-card{
+    margin: 50px;
+    border-radius: 2px;
+    border: 2px solid #ff7820;
+}
+
+.user-card{
+    max-width: 500px;
+    padding: 10px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.user-card__city-header_bold{
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.profile-page__message-container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}

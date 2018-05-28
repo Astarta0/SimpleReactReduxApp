@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import * as globalActions from '../global/globalActions';
+import * as globalSelectors from '../global/globalSelectors';
 
 class Header extends Component {
 
     handleClickLogOut = () => {
         this.props.logOut();
-        localStorage.removeItem('isUserLoggedIn');
+        localStorage.removeItem('userId');
     };
 
     render() {
+        console.log('this.props.isUserLoggedIn--', this.props.isUserLoggedIn);
         return(
             <header className='header'>
                 <ul className='menu header__menu menu_theme_orange'>
@@ -20,6 +22,12 @@ class Header extends Component {
                     </li>
                     <li className='menu__item menu__item_border menu-item'>
                         <Link to='/news' className="menu-item__link menu-item__link_color_is_orange" replace>News</Link>
+                    </li>
+                    <li className='menu__item menu__item_border menu-item'>
+                        <Link to='/converter' className="menu-item__link menu-item__link_color_is_orange" replace>Converter</Link>
+                    </li>
+                    <li className='menu__item menu__item_border menu-item'>
+                        <Link to='/articles' className="menu-item__link menu-item__link_color_is_orange" replace>Articles</Link>
                     </li>
                     <li className='menu__item menu__item_border menu-item'>
                         <Link to='/profile' className="menu-item__link menu-item__link_color_is_orange" replace>Profile</Link>
@@ -41,7 +49,7 @@ class Header extends Component {
 
 function mapStateToProps(state) {
     return {
-        isUserLoggedIn: state.global.isUserLoggedIn,
+        isUserLoggedIn: globalSelectors.isUserloggedIn(state),
     };
 }
 

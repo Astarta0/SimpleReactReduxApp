@@ -1,11 +1,15 @@
 import { combineReducers } from 'redux';
 
-import loginPageReducer from '../pages/LoginPage/reducer';
+import profilePageReducer from '../pages/ProfilePage/reducer';
+import articlePageReducer from '../pages/ArticlePage/reducer';
 import globalReducer from '../global/globalReducer';
+import newsPageReducer from '../pages/NewsPage/reducer';
 
 const mainReducer = combineReducers({
     'global': globalReducer,
-    'loginPage': loginPageReducer
+    'profilePage': profilePageReducer,
+    'articlePage': articlePageReducer,
+    'newsPage': newsPageReducer
 });
 
 export default mainReducer;
