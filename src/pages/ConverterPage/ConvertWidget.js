@@ -17,7 +17,6 @@ class ConvertWidget extends Component {
 
     componentDidMount() {
         this.props.getCourse();
-
     }
 
     handleUnitsChange = (event) => {

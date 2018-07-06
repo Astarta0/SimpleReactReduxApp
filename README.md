@@ -1,6 +1,5 @@
 # SimpleReactReduxApp
-The test app from group: https://vk.com/maxpfrontend
-Second task: https://vk.com/@maxpfrontend-testovoe-zadanie-2
+The test app https://vk.com/@maxpfrontend-testovoe-zadanie-1
 
 1. To install dependencies:
 ```
@@ -15,5 +14,8 @@ npm run build
 ```
 npm start
 ```
-Test data for login:
-email: max@test.com, password = 12345
+**Login/Password for test:**
+
+*username:* Admin
+
+*password:* 12345
