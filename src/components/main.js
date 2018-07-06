@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Route, Switch } from 'react-router-dom';
-import MainPage from "../pages/MainPage/MainPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import ArticlePage from "../pages/ArticlePage/ArticlePage";
 import ConverterPage from "../pages/ConverterPage/ConverterPage";
@@ -14,10 +13,9 @@ export default class Main extends Component {
         return(
             <main className='main-content'>
                 <Switch>
-                    <Route exact path="/" component={MainPage}/>
+                    <Route exact path="/" component={ArticlePage}/>
                     <Route path="/news" component={NewsPage}/>
                     <Route path="/converter" component={ConverterPage}/>
-                    <Route path="/articles" component={ArticlePage}/>
                     <Route path="/login" component={LoginPage}/>
                     <ProtectedComponent path="/profile" component={ProfilePage} />
 
