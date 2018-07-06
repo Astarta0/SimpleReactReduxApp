@@ -1,5 +1,5 @@
 # SimpleReactReduxApp
-The test app https://vk.com/@maxpfrontend-testovoe-zadanie-1
+The test app based on a tasks from https://vk.com/@maxpfrontend-testovoe-zadanie-2
 
 1. To install dependencies:
 ```
@@ -16,6 +16,7 @@ npm start
 ```
 **Login/Password for test:**
 
-*username:* Admin
-
+*username:* max@test.com"
 *password:* 12345
+
+Demo: https://codesandbox.io/s/5zr6z9nm54
