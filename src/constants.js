@@ -17,3 +17,6 @@ export const SITES_ICONS = {
     'youtube': `${SOURCE_PATH}if_58-youtube_104445.svg`,
     'twitter': `${SOURCE_PATH}if_43-twitter_104461.svg`
 };
+
+export const COURSE_ETH_TO_RUB_BASE_API_PATH = 'https://min-api.cryptocompare.com/data';
+export const COURSE_ETH_TO_RUB_URL = '/price?fsym=ETH&tsyms=RUB';

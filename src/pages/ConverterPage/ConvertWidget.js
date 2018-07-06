@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import MeasureInput from './MeasureInput';
+import {connect} from 'react-redux';
 
-export default class ConvertWidget extends Component {
+import MeasureInput from './MeasureInput';
+import * as converterActions from './actions';
+import * as converterSelectors from './selectors';
+
+class ConvertWidget extends Component {
     constructor(props) {
         super(props);
 
@@ -9,6 +13,11 @@ export default class ConvertWidget extends Component {
             units: '',
             measure: ''
         };
+    }
+
+    componentDidMount() {
+        this.props.getCourse();
+
     }
 
     handleUnitsChange = (event) => {
@@ -25,9 +34,18 @@ export default class ConvertWidget extends Component {
     };
 
     render() {
+        const {rubsForOneEthereum, isGetCoursePending, getCourseError } = this.props;
         const units = this.state.units;
-        const rub = this.state.measure === 'ETH' ? toRub(units) : units;
-        const eth = this.state.measure === 'RUB' ? toEth(units) : units;
+        const rub = this.state.measure === 'ETH' ? toRub(units, rubsForOneEthereum) : units;
+        const eth = this.state.measure === 'RUB' ? toEth(units, rubsForOneEthereum) : units;
+
+        if(isGetCoursePending || getCourseError || !rubsForOneEthereum) {
+            return(
+                <div className='convert-widget main-page__convert-widget'>
+                    <h2>{ (getCourseError) ? `${getCourseError}` : 'Data Loading...'}</h2>
+                </div>
+            );
+        }
 
         return(
             <div className='convert-widget main-page__convert-widget'>
@@ -43,14 +61,31 @@ export default class ConvertWidget extends Component {
     }
 };
 
-function toRub(ethereum) {
+function toRub(ethereum, rubsForOneEthereum) {
     if (ethereum==='') return '';
-    return (Math.round(41928.6573*ethereum));
+    return (Math.round(rubsForOneEthereum*ethereum));
 }
 
-function toEth(rub) {
+function toEth(rub, rubsForOneEthereum) {
     if (rub==='') return '';
-    return (Math.round(rub/41928.6573));
+    return (Math.round(rub/rubsForOneEthereum));
 }
 
+function mapStateToProps(state) {
+    return {
+        getCourseError: converterSelectors.getCourseError(state),
+        isGetCoursePending: converterSelectors.isGetCoursePending(state),
+        rubsForOneEthereum: converterSelectors.getCourseRubsForOneEthereum(state)
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getCourse: () => {
+            dispatch(converterActions.getCourse());
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConvertWidget);
 

@@ -72,14 +72,16 @@ export async function fetchPostRequest(apiMethod, bodyData, headers) {
 }
 
 
-export async function fetchGetRequest(apiMethod, headers) {
+export async function fetchGetRequest(apiMethod, {headers, ...options} = {}) {
     console.log(`[GET] Request ${apiMethod}`);
+
+    let basePath = options.baseApiPath || BASE_API_PATH;
 
     let responseJson;
     let response;
     console.log('Start fetch');
     try {
-        response = await fetch(BASE_API_PATH + apiMethod, {
+        response = await fetch(basePath + apiMethod, {
         method: 'get',
         headers: {
             "Accept": "application/json",
@@ -119,6 +121,10 @@ export async function fetchGetRequest(apiMethod, headers) {
     if (responseJson.status==='err' && responseJson.message) {
         const error = USERS_ERRORS[responseJson.message] || responseJson.message;
         throw new Error(error);
+    }
+
+    if(options.baseApiPath) {
+        return responseJson;
     }
 
     if (!responseJson.data) {
