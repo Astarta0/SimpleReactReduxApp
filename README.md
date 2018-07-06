@@ -16,7 +16,7 @@ npm start
 ```
 **Login/Password for test:**
 
-*username:* max@test.com"
+*username:* max@test.com
 *password:* 12345
 
-Demo: https://codesandbox.io/s/5zr6z9nm54
+Demo: https://codesandbox.io/s/9l9rvr90yw
